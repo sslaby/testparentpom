@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ciparentpom</groupId>
+	<artifactId>ciparentpom</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<properties>
+	<jgitflow.version>1.0-m5.1</jgitflow.version>
+	<jacoco.version>0.7.5.201505241946</jacoco.version>
+	</properties>
+	<build>
+	<pluginManagement>
+		<plugins>
+			<!--This plugin's configuration is used to store Eclipse m2e settings
+				only. It has no influence on the Maven build itself. -->
+			<plugin>
+				<groupId>org.eclipse.m2e</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>1.0.0</version>
+				<configuration>
+					<lifecycleMappingMetadata>
+						<pluginExecutions>
+							<pluginExecution>
+								<pluginExecutionFilter>
+									<groupId>org.jacoco</groupId>
+									<artifactId>jacoco-maven-plugin</artifactId>
+									<versionRange>${jacoco.version}</versionRange>
+									<goals>
+										<goal>prepare-agent</goal>
+									</goals>
+								</pluginExecutionFilter>
+								<action>
+									<!-- m2e doesn't know what to do with jacoco, let's ignore it or
+										annoying error markers appear see http://wiki.eclipse.org/M2E_plugin_execution_not_covered -->
+									<ignore></ignore>
+								</action>
+							</pluginExecution>
+						</pluginExecutions>
+					</lifecycleMappingMetadata>
+				</configuration>
+			</plugin>
+		</plugins>
+	</pluginManagement>
+	<plugins>
+		<plugin>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>${jacoco.version}</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>prepare-agent</goal>
+					</goals>
+				</execution>
+				<execution>
+					<id>report</id>
+					<phase>prepare-package</phase>
+					<goals>
+						<goal>report</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<groupId>external.atlassian.jgitflow</groupId>
+			<artifactId>jgitflow-maven-plugin</artifactId>
+			<version>${jgitflow.version}</version>
+			<configuration>
+				<pushFeatures>true</pushFeatures>
+				<pushHotfixes>true</pushHotfixes>
+				<pushReleases>true</pushReleases>
+				<enableSshAgent>true</enableSshAgent>
+				<flowInitContext>
+					<masterBranchName>master</masterBranchName>
+					<developBranchName>dev</developBranchName>
+					<featureBranchPrefix>feature/</featureBranchPrefix>
+					<releaseBranchPrefix>release/</releaseBranchPrefix>
+					<hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+					<versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+				</flowInitContext>
+			</configuration>
+		</plugin>
+	</plugins>
+	
+	</build>
+	
+</project>
